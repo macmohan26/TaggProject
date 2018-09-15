@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - "7.1"
+
+before_script:
+  - cp .env.travis .env
+  - mysql -e 'create database test;'
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+
+services:
+  - mysql
+
+script:
+- vendor/bin/phpunit
+
+notifications:
+  slack:
+    rooms:
+      - spring2018tagg:7KfoXx23t9mqDO2wUERxlhxB
+    on_success: :change
+    on_failure: :change
